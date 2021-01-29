@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/chatCore/tools/PackageTool.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/chatUI/DialogUI.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/chatclient/friendListUI/ListPane.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/client/ChatClient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dataBase/DialogDB.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dataBase/Figures.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/dataBase/UserInfo.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/friendListUI/AddFriendUI.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/friendListUI/FriendListUI.java" charset="UTF-8" />
+  </component>
+</project>

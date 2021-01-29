@@ -1,0 +1,155 @@
+import org.whispersystems.libsignal.*;
+import org.whispersystems.libsignal.protocol.CiphertextMessage;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
+import org.whispersystems.libsignal.state.*;
+import org.whispersystems.libsignal.util.KeyHelper;
+import setting.protocol.*;
+import org.whispersystems.libsignal.*;
+import java.awt.*;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import javax.swing.*;
+import view.show;
+class sender
+{
+    public IdentityKeyPair    identityKeyPair;
+    public int                registrationId;
+    public List<PreKeyRecord> preKeys;
+    public SignedPreKeyRecord signedPreKey;
+
+    int _reistrationId;
+    PreKeyRecord _preKeys;
+    IdentityKeyPair _identityKeyPair;
+    SignedPreKeyRecord _signedPreKey;
+
+    public void load(int _reistrationId,PreKeyRecord _preKeys,IdentityKeyPair _identityKeyPair,SignedPreKeyRecord _signedPreKey) {
+        this._reistrationId = _reistrationId;
+        this._preKeys = _preKeys;
+        this._identityKeyPair = _identityKeyPair;
+        this._signedPreKey = _signedPreKey;
+    }
+
+
+    public sender() throws InvalidKeyException, UnsupportedEncodingException, InvalidKeyIdException, UntrustedIdentityException
+    {
+        identityKeyPair = KeyHelper.generateIdentityKeyPair();
+        registrationId  = KeyHelper.generateRegistrationId(true);
+        preKeys         = KeyHelper.generatePreKeys(5, 100);
+        signedPreKey    = KeyHelper.generateSignedPreKey(identityKeyPair, 5);
+
+
+// Store identityKeyPair somewhere durable and safe.
+// Store registrationId somewhere durable and safe.
+
+// Store preKeys in PreKeyStore.
+// Store signed prekey in SignedPreKeyStore.
+
+
+// Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
+    }
+    public byte[] re() throws InvalidKeyException, UnsupportedEncodingException, InvalidKeyIdException, UntrustedIdentityException
+    {
+        SessionStore      sessionStore      = new MySessionStore();
+        PreKeyStore       preKeyStore       = new MyPreKeyStore();
+        SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
+        IdentityKeyStore  identityStore     = new MyIdentityKeyStore(identityKeyPair,registrationId);
+
+        signedPreKeyStore.storeSignedPreKey(5,signedPreKey);
+        SignalProtocolAddress deviceId = new SignalProtocolAddress("fuck",0);
+        sessionStore.storeSession(deviceId,new SessionRecord());
+        identityStore.saveIdentity(deviceId,_identityKeyPair.getPublicKey());
+        preKeyStore.storePreKey(5,preKeys.get(0));
+        SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
+                identityStore, deviceId);
+
+
+// Build a session with a PreKey retrieved from the server.
+        PreKeyBundle retrievedPreKey = new PreKeyBundle(_reistrationId,0,5,_preKeys.getKeyPair().getPublicKey(),5,_signedPreKey.getKeyPair().getPublicKey(),_signedPreKey.getSignature(),_identityKeyPair.getPublicKey());
+        sessionBuilder.process(retrievedPreKey);
+
+        SessionCipher sessionCipher = new SessionCipher(sessionStore, preKeyStore,signedPreKeyStore, identityStore, deviceId);
+        CiphertextMessage message      =  sessionCipher.encrypt("ps".getBytes("UTF-8"));
+
+        return message.serialize();
+    }
+
+}
+class reab {
+    public IdentityKeyPair    identityKeyPair;
+    public int                registrationId;
+    public List<PreKeyRecord> preKeys;
+    public SignedPreKeyRecord signedPreKey;
+    public byte[] ser;
+
+    int _reistrationId;
+    PreKeyRecord _preKeys;
+    IdentityKeyPair _identityKeyPair;
+    SignedPreKeyRecord _signedPreKey;
+
+    public void load(int _reistrationId,PreKeyRecord _preKeys,IdentityKeyPair _identityKeyPair,SignedPreKeyRecord _signedPreKey) {
+        this._reistrationId = _reistrationId;
+        this._preKeys = _preKeys;
+        this._identityKeyPair = _identityKeyPair;
+        this._signedPreKey = _signedPreKey;
+    }
+
+    public reab() throws InvalidKeyException, UnsupportedEncodingException, InvalidKeyIdException, UntrustedIdentityException, LegacyMessageException, InvalidMessageException, DuplicateMessageException, NoSessionException {
+        identityKeyPair = KeyHelper.generateIdentityKeyPair();
+        registrationId  = KeyHelper.generateRegistrationId(true);
+        preKeys         = KeyHelper.generatePreKeys(5, 100);
+        signedPreKey    = KeyHelper.generateSignedPreKey(identityKeyPair, 5);
+
+// Store identityKeyPair somewhere durable and safe.
+// Store registrationId somewhere durable and safe.
+
+// Store preKeys in PreKeyStore.
+// Store signed prekey in SignedPreKeyStore.
+
+
+
+    }
+    public void re() throws InvalidKeyException, UntrustedIdentityException, LegacyMessageException, InvalidMessageException, DuplicateMessageException, NoSessionException, InvalidVersionException, InvalidKeyIdException {
+        SessionStore      sessionStore      = new MySessionStore();
+        PreKeyStore       preKeyStore       = new MyPreKeyStore();
+        SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
+        IdentityKeyStore  identityStore     = new MyIdentityKeyStore(identityKeyPair,registrationId);
+
+        signedPreKeyStore.storeSignedPreKey(5,signedPreKey);
+// Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
+        ;
+        SignalProtocolAddress deviceId = new SignalProtocolAddress("fuck",0);
+        sessionStore.storeSession(deviceId,new SessionRecord());
+        identityStore.saveIdentity(deviceId,_identityKeyPair.getPublicKey());
+        preKeyStore.storePreKey(5,preKeys.get(0));
+        SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
+                identityStore, deviceId);
+
+
+// Build a session with a PreKey retrieved from the server.
+        PreKeyBundle retrievedPreKey = new PreKeyBundle(_reistrationId,0,5,_preKeys.getKeyPair().getPublicKey(),5,_signedPreKey.getKeyPair().getPublicKey(),_signedPreKey.getSignature(),_identityKeyPair.getPublicKey());
+        sessionBuilder.process(retrievedPreKey);
+        SessionCipher sessionCipher = new SessionCipher(sessionStore, preKeyStore,signedPreKeyStore, identityStore, deviceId);
+        byte[] message      =  sessionCipher.decrypt(new PreKeySignalMessage(ser));
+        for(byte a : message)
+        {
+            System.out.print((char)a);
+        }
+    }
+
+}
+
+public class main
+{
+    public static void main(String []args) throws InvalidKeyIdException, UntrustedIdentityException, InvalidKeyException, UnsupportedEncodingException, NoSessionException, DuplicateMessageException, InvalidMessageException, LegacyMessageException, InvalidVersionException {
+        sender a = new sender();
+        reab b = new reab();
+
+        a.load(b.registrationId,b.preKeys.get(0),b.identityKeyPair,b.signedPreKey);
+        b.ser = a.re();
+        b.load(a.registrationId,a.preKeys.get(0),a.identityKeyPair,a.signedPreKey);
+
+        b.re();
+    }
+
+}

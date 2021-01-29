@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ScreetChat:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ScreetChat_jar</output-path>
+    <root id="archive" name="ScreetChat.jar">
+      <element id="module-output" name="ScreetChat" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/whispersystems/signal-protocol-java/2.3.0/signal-protocol-java-2.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/whispersystems/curve25519-java/0.3.0/curve25519-java-0.3.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
